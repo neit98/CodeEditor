@@ -44,3 +44,18 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## 3 Big Challenge
+
+- Code will be provided to Preview as a string. We have to execute it safely.
+- This code might have advanced JS syntax in it (like JSX) that your browser can't execute.
+- The code might have import statements for other JS files or CSS. We have to deal with those import statements before executing the code.
+
+## Considerations Around Code Execution
+
+- User-provided code might throw errors and cause program to crash.
+  Solve: we execute user's code in an iframe.
+- User-provided code might mutate the DOM, causing our program to crash.
+  Solve: we execute user's code in an iframe.
+- A user might accidentally run code provided by another malicious user.
+  Solve: we execute user's code in an iframe with direct communication disabled.
