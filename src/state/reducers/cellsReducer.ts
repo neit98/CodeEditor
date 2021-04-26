@@ -2,7 +2,6 @@ import { ActionType } from '../action-types';
 import { Action } from '../actions';
 import { Cell } from '../cell';
 import produce from 'immer';
-import { stat } from 'fs';
 
 interface CellsState {
   loading: boolean;
