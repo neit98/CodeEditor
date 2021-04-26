@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { Cell } from '../state';
 import CodeCell from './code-cell';
 import TextEditor from './text-editor';
@@ -10,9 +9,9 @@ interface CellLisItemProps {
 const CellListItem: React.FC<CellLisItemProps> = ({ cell }) => {
   let child: JSX.Element;
   if (cell.type === 'code') {
-    child = <CodeCell />;
+    child = <CodeCell cell={cell} />;
   } else {
-    child = <TextEditor />;
+    child = <TextEditor cell={cell} />;
   }
 
   return <div>{child}</div>;
