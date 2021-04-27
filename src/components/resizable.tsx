@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ResizableBox, ResizableBoxProps } from 'react-resizable';
+import { isClient } from '../utilities/index';
 import './resizable.css';
 
 interface ResizableProps {
@@ -20,17 +21,23 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
         clearTimeout(timer);
       }
       timer = setTimeout(() => {
-        setInnerHeight(window.innerHeight);
-        setInnerWidth(window.innerWidth);
-        if (window.innerWidth * 0.75 < width) {
-          setWidth(window.innerWidth * 0.75);
+        if (isClient()) {
+          setInnerHeight(window.innerHeight);
+          setInnerWidth(window.innerWidth);
+          if (window.innerWidth * 0.75 < width) {
+            setWidth(window.innerWidth * 0.75);
+          }
         }
       }, 100);
     };
-    window.addEventListener('resize', listener);
+    if (isClient()) {
+      window.addEventListener('resize', listener);
+    }
 
     return () => {
-      window.removeEventListener('resize', listener);
+      if (isClient()) {
+        window.removeEventListener('resize', listener);
+      }
     };
   }, [width]);
 
