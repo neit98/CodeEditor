@@ -6,6 +6,7 @@ import Resizable from './resizable';
 import { Cell } from '../state';
 import { useActions } from '../hooks/use-actions';
 import { useTypedSelector } from '../hooks/use-typed-selector';
+import './code-cell.css';
 
 interface CodeCellProps {
   cell: Cell;
@@ -28,6 +29,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
     return () => {
       clearTimeout(timer);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cell.content, cell.id, createBundle]);
 
   return (
@@ -45,7 +47,17 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
             onChange={(value) => updateCell(cell.id, value)}
           />
         </Resizable>
-        {bundle && <Preview code={bundle.code} bundlingStatus={bundle.err} />}
+        {!bundle || bundle.loading ? (
+          <div className='progress-wrapper'>
+            <div className='progress-cover'>
+              <progress className='progress is-small is-primary' max='100'>
+                Loading
+              </progress>
+            </div>
+          </div>
+        ) : (
+          <Preview code={bundle.code} bundlingStatus={bundle.err} />
+        )}
       </div>
     </Resizable>
   );
