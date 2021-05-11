@@ -7,6 +7,10 @@ export const serveCommand = new Command()
   .description('Open a file for editing')
   .option('-p, --port <number>', 'port to run server on', '4005')
   .action((filename = 'notebook.js', options: { port: string }) => {
-    const dir = path.join(process.cwd(), path.dirname(filename));
-    serve(parseInt(options.port), path.basename(filename), dir);
+    try {
+      const dir = path.join(process.cwd(), path.dirname(filename));
+      serve(parseInt(options.port), path.basename(filename), dir);
+    } catch (error) {
+      console.log('Heres the problem', error.message);
+    }
   });
