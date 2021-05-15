@@ -1,11 +1,12 @@
 import { User } from './User';
 import { Company } from './Company';
 
-interface Mappable {
+export interface Mappable {
   location: {
     lat: number;
     lng: number;
   };
+  markerContent(): string;
 }
 
 export class CustomMap {
@@ -22,22 +23,20 @@ export class CustomMap {
   }
 
   addMaker(mappable: Mappable): void {
-    new google.maps.Marker({
+    const maker = new google.maps.Marker({
       map: this.googleMap,
       position: {
         lat: mappable.location.lat,
         lng: mappable.location.lng,
       },
     });
-  }
 
-  // addCompanyMaker(company: Company): void {
-  //   new google.maps.Marker({
-  //     map: this.googleMap,
-  //     position: {
-  //       lat: company.location.lat,
-  //       lng: company.location.lng,
-  //     },
-  //   });
-  // }
+    maker.addListener('click', () => {
+      const infoWindow = new google.maps.InfoWindow({
+        content: mappable.markerContent(),
+      });
+
+      infoWindow.open(this.googleMap, maker);
+    });
+  }
 }
